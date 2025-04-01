@@ -58,6 +58,7 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
+import { EntityScalrEnvironmentContent } from '@internal/plugin-scalr';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -196,11 +197,12 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/" title="Overview">
       {overviewContent}
     </EntityLayout.Route>
-
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
-
+    <EntityLayout.Route path="/scalr" title="Scalr Environment">
+      <EntityScalrEnvironmentContent />
+    </EntityLayout.Route>
     <EntityLayout.Route
       path="/kubernetes"
       title="Kubernetes"
@@ -208,7 +210,6 @@ const websiteEntityPage = (
     >
       <EntityKubernetesContent />
     </EntityLayout.Route>
-
     <EntityLayout.Route path="/dependencies" title="Dependencies">
       <Grid container spacing={3} alignItems="stretch">
         <Grid item md={6}>
@@ -219,7 +220,6 @@ const websiteEntityPage = (
         </Grid>
       </Grid>
     </EntityLayout.Route>
-
     <EntityLayout.Route path="/docs" title="Docs">
       {techdocsContent}
     </EntityLayout.Route>
