@@ -10,6 +10,8 @@ import { IconButton } from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import { useEnvironment } from '../../hooks';
+import { DateTimeDisplayComponent } from '../DateTimeComponent';
+import { StatusChipComponent } from '../StatusChipComponent';
 
 export interface Workspace {
   name: string;
@@ -35,8 +37,7 @@ export const DenseTable = ({ environment }: DenseTableProps) => {
     { title: 'Name', field: 'name' },
     { title: 'ID', field: 'id' },
     { title: 'Type', field: 'type' },
-    { title: 'Updated At', field: 'updatedAt' },
-    { title: 'Updated By', field: 'updatedBy' },
+    { title: 'Last Execution', field: 'last_execution' },
     { title: 'State', field: 'state' },
     { title: 'Actions', field: 'actions' },
   ];
@@ -45,9 +46,19 @@ export const DenseTable = ({ environment }: DenseTableProps) => {
     name: workspace.name,
     id: workspace.id,
     type: workspace.type,
-    updatedAt: workspace.last_execution_time,
-    updatedBy: workspace.last_execution_user,
-    state: <Chip label={workspace.last_execution_state} />,
+    last_execution: (
+      <>
+        <DateTimeDisplayComponent
+          dateTime={workspace.last_execution_time || 'unknown'}
+        />
+        {workspace.last_execution_user}
+      </>
+    ),
+    state: (
+      <StatusChipComponent
+        status={workspace.last_execution_state || 'unknown'}
+      />
+    ),
     actions: (
       <>
         <IconButton aria-label="Trigger new Run" component="span">
@@ -70,11 +81,13 @@ export const DenseTable = ({ environment }: DenseTableProps) => {
   );
 };
 
-type ExampleFetchComponentProps = {
+type EnvironmentFetchComponentProps = {
   id: string;
 };
 
-export const ExampleFetchComponent = ({ id }: ExampleFetchComponentProps) => {
+export const EnvironmentFetchComponent = ({
+  id,
+}: EnvironmentFetchComponentProps) => {
   const { environment, loading, error } = useEnvironment(id);
 
   if (loading) return <Progress />;

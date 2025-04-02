@@ -1,0 +1,1 @@
+export { StatusChipComponent } from './StatusChipComponent';

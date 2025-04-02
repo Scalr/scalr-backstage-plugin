@@ -7,14 +7,14 @@ import {
   isScalrAvailable,
   SCALR_ENVIRONMENT_ANNOTATION,
 } from '../../annotations';
-import { ExampleFetchComponent } from '../ExampleFetchComponent/ExampleFetchComponent';
+import { EnvironmentFetchComponent } from '../EnvironmentFetchComponent';
 
 export const EntityScalrEnvironmentContent = () => {
   const { entity } = useEntity();
 
   if (isScalrAvailable(entity)) {
     const env = entity.metadata.annotations![SCALR_ENVIRONMENT_ANNOTATION];
-    return <ExampleFetchComponent id={env} />;
+    return <EnvironmentFetchComponent id={env} />;
   }
 
   return (
