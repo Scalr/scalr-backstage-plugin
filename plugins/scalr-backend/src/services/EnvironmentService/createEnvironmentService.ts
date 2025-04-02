@@ -57,7 +57,6 @@ export async function createEnvironmentService({
         workspaces: await Promise.all(workspacePromises),
       };
 
-      logger.debug(JSON.stringify(result));
       return result;
     },
   };
