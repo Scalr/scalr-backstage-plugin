@@ -5,53 +5,38 @@ import {
   Progress,
   ResponseErrorPanel,
 } from '@backstage/core-components';
-import useAsync from 'react-use/lib/useAsync';
 import Chip from '@material-ui/core/Chip';
+import { useEnvironment } from '../../hooks';
 
-export const exampleWorkspaces = {
-  results: [
-    {
-      name: 'workspace-a',
-      id: 'wsc-03sdqqw3323',
-      type: 'development',
-      state: 'error',
-    },
-    {
-      name: 'workspace-b',
-      id: 'wsc-0392233q22',
-      type: 'staging',
-      state: 'successfull',
-    },
-    {
-      name: 'workspace-c',
-      id: 'wsc-039223323',
-      type: 'production',
-      state: 'drifted',
-    },
-  ],
-};
-
-type Workspace = {
+export interface Workspace {
   name: string;
   id: string;
-  type: string;
-  state: string;
+  type?: string;
+  state?: string;
   last_execution?: Date;
-};
+}
+
+export interface Environment {
+  name: string;
+  id: string;
+  workspaces: Workspace[];
+}
 
 type DenseTableProps = {
-  workspaces: Workspace[];
+  environment: Environment;
 };
 
-export const DenseTable = ({ workspaces }: DenseTableProps) => {
+export const DenseTable = ({ environment }: DenseTableProps) => {
   const columns: TableColumn[] = [
     { title: 'Name', field: 'name' },
     { title: 'ID', field: 'id' },
     { title: 'Type', field: 'type' },
+    { title: 'Last Execution', field: 'lastExecution' },
     { title: 'State', field: 'state' },
+    { title: 'Actions', field: 'actions' },
   ];
 
-  const data = workspaces.map(workspace => ({
+  const data = environment.workspaces.map(workspace => ({
     name: workspace.name,
     id: workspace.id,
     type: workspace.type,
@@ -60,7 +45,7 @@ export const DenseTable = ({ workspaces }: DenseTableProps) => {
 
   return (
     <Table
-      title="Example User List"
+      title={environment.name}
       options={{ search: true, paging: false }}
       columns={columns}
       data={data}
@@ -68,17 +53,14 @@ export const DenseTable = ({ workspaces }: DenseTableProps) => {
   );
 };
 
-export const ExampleFetchComponent = () => {
-  const { value, loading, error } = useAsync(async (): Promise<Workspace[]> => {
-    // Would use fetch in a real world example
-    return exampleWorkspaces.results;
-  }, []);
+type ExampleFetchComponentProps = {
+  id: string;
+};
 
-  if (loading) {
-    return <Progress />;
-  } else if (error) {
-    return <ResponseErrorPanel error={error} />;
-  }
+export const ExampleFetchComponent = ({ id }: ExampleFetchComponentProps) => {
+  const { environment, loading, error } = useEnvironment(id);
 
-  return <DenseTable workspaces={value || []} />;
+  if (loading) return <Progress />;
+  if (error) return <ResponseErrorPanel error={error} />;
+  return <DenseTable environment={environment} />;
 };

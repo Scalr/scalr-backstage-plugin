@@ -13,7 +13,7 @@ kind: Component
 metadata:
   name: example-website
   annotations:
-    scalr/environment: value
+    scalr/environment: env-pjosdj33er2
 spec:
   type: website
   lifecycle: experimental
