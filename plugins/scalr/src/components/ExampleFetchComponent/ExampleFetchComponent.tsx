@@ -6,14 +6,18 @@ import {
   ResponseErrorPanel,
 } from '@backstage/core-components';
 import Chip from '@material-ui/core/Chip';
+import { IconButton } from '@material-ui/core';
+import PlayArrowIcon from '@material-ui/icons/PlayArrow';
+import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import { useEnvironment } from '../../hooks';
 
 export interface Workspace {
   name: string;
   id: string;
   type?: string;
-  state?: string;
-  last_execution?: Date;
+  last_execution_state?: string;
+  last_execution_time?: string;
+  last_execution_user?: string;
 }
 
 export interface Environment {
@@ -31,7 +35,8 @@ export const DenseTable = ({ environment }: DenseTableProps) => {
     { title: 'Name', field: 'name' },
     { title: 'ID', field: 'id' },
     { title: 'Type', field: 'type' },
-    { title: 'Last Execution', field: 'lastExecution' },
+    { title: 'Updated At', field: 'updatedAt' },
+    { title: 'Updated By', field: 'updatedBy' },
     { title: 'State', field: 'state' },
     { title: 'Actions', field: 'actions' },
   ];
@@ -40,7 +45,19 @@ export const DenseTable = ({ environment }: DenseTableProps) => {
     name: workspace.name,
     id: workspace.id,
     type: workspace.type,
-    state: <Chip label={workspace.state} />,
+    updatedAt: workspace.last_execution_time,
+    updatedBy: workspace.last_execution_user,
+    state: <Chip label={workspace.last_execution_state} />,
+    actions: (
+      <>
+        <IconButton aria-label="Trigger new Run" component="span">
+          <PlayArrowIcon />
+        </IconButton>
+        <IconButton aria-label="Open Workspace in Scalr" component="span">
+          <OpenInNewIcon />
+        </IconButton>
+      </>
+    ),
   }));
 
   return (

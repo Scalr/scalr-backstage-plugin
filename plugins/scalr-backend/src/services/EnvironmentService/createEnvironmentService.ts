@@ -1,34 +1,63 @@
-import { AuthService, LoggerService } from '@backstage/backend-plugin-api';
+import {
+  LoggerService,
+  RootConfigService,
+} from '@backstage/backend-plugin-api';
 import { NotFoundError } from '@backstage/errors';
-import { catalogServiceRef } from '@backstage/plugin-catalog-node/alpha';
-import { Environment, EnvironmentService } from './types';
-import { mockEnvironments } from './mock';
+import { Environment, EnvironmentService, Workspace } from './types';
+import { ScalrApi } from './../../api/ScalrApi';
 
-// TEMPLATE NOTE:
-// This is a simple in-memory todo list store. It is recommended to use a
-// database to store data in a real application. See the database service
-// documentation for more information on how to do this:
-// https://backstage.io/docs/backend-system/core-services/database
 export async function createEnvironmentService({
-  auth,
   logger,
-  catalog,
+  config,
 }: {
-  auth: AuthService;
   logger: LoggerService;
-  catalog: typeof catalogServiceRef.T;
+  config: RootConfigService;
 }): Promise<EnvironmentService> {
   logger.info('Initializing EnvironmentService');
 
+  const scalrApi = new ScalrApi(config, logger);
+
   return {
     async getEnvironment(request: { id: string }) {
-      const environment: Environment | undefined = mockEnvironments.find(
-        item => item.id === request.id,
-      );
-      if (!environment) {
-        throw new NotFoundError(`No todo found with id '${request.id}'`);
-      }
-      return environment;
+      logger.info(`/environment/${request.id} was requested`);
+
+      const environment = await scalrApi.getEnvironment(request.id);
+      if (!environment)
+        throw new NotFoundError(`Error fetching environment - '${request.id}'`);
+
+      const workspaces = await scalrApi.getWorkspaces(request.id);
+      if (!workspaces)
+        throw new NotFoundError(
+          `Error fetching workspaces with environment - '${request.id}'`,
+        );
+
+      const workspacePromises = workspaces.data.map(async (workspace: any) => {
+        const run = await scalrApi.getRun(
+          workspace.relationships['latest-run'].data.id,
+        );
+        if (!run)
+          throw new NotFoundError(
+            `Error fetching run - '${workspace.relationships['latest-run'].data.id}'`,
+          );
+
+        return {
+          name: workspace.attributes.name,
+          id: workspace.id,
+          type: workspace.attributes['environment-type'],
+          last_execution_state: run.data.attributes.status,
+          last_execution_time: workspace.attributes['updated-at'],
+          last_execution_user: workspace.attributes['updated-by-email'],
+        } as Workspace;
+      });
+
+      const result: Environment = {
+        name: environment.data.attributes.name,
+        id: environment.data.id,
+        workspaces: await Promise.all(workspacePromises),
+      };
+
+      logger.debug(JSON.stringify(result));
+      return result;
     },
   };
 }

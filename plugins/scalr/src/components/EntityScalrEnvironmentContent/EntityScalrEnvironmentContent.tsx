@@ -13,7 +13,7 @@ export const EntityScalrEnvironmentContent = () => {
   const { entity } = useEntity();
 
   if (isScalrAvailable(entity)) {
-    const env = entity.metadata.annotations!['scalr/environment'];
+    const env = entity.metadata.annotations![SCALR_ENVIRONMENT_ANNOTATION];
     return <ExampleFetchComponent id={env} />;
   }
 

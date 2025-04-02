@@ -7,8 +7,9 @@ export interface Workspace {
   name: string;
   id: string;
   type?: string;
-  state?: string;
-  last_execution?: Date;
+  last_execution_state?: string;
+  last_execution_time?: string;
+  last_execution_user?: string;
 }
 
 export interface Environment {

@@ -1,0 +1,72 @@
+import { Config } from '@backstage/config';
+import axios from 'axios';
+import { LoggerService } from '@backstage/backend-plugin-api/*';
+
+export class ScalrApi {
+  private readonly token: string;
+  private readonly baseUrl: string;
+  private readonly logger: LoggerService;
+
+  constructor(config: Config, logger: LoggerService) {
+    this.token = config.getString('integrations.scalr.api-token');
+    this.baseUrl = config.getString('integrations.scalr.base-url');
+    this.logger = logger;
+  }
+
+  getEnvironment(id: string): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/environments/${id}`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching environment:', err);
+        throw err;
+      });
+  }
+
+  getWorkspaces(environment: string): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/workspaces?filter[environment]=${environment}`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching workspaces:', err);
+        throw err;
+      });
+  }
+
+  getRun(run: string): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/runs/${run}`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching runs:', err);
+        throw err;
+      });
+  }
+}
