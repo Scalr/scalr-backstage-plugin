@@ -5,8 +5,7 @@ import {
   Progress,
   ResponseErrorPanel,
 } from '@backstage/core-components';
-import Chip from '@material-ui/core/Chip';
-import { IconButton } from '@material-ui/core';
+import { IconButton, Link } from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import { useEnvironment } from '../../hooks';
@@ -25,6 +24,7 @@ export interface Workspace {
 export interface Environment {
   name: string;
   id: string;
+  baseUrl: string;
   workspaces: Workspace[];
 }
 
@@ -64,9 +64,15 @@ export const DenseTable = ({ environment }: DenseTableProps) => {
         <IconButton aria-label="Trigger new Run" component="span">
           <PlayArrowIcon />
         </IconButton>
-        <IconButton aria-label="Open Workspace in Scalr" component="span">
-          <OpenInNewIcon />
-        </IconButton>
+        <a
+          href={`https://${environment.baseUrl}/v2/e/${environment.id}/workspaces/${workspace.id}/`}
+          target="_blank"
+          rel="noopener noreferrer"
+        >
+          <IconButton aria-label="Open Workspace in Scalr" component="span">
+            <OpenInNewIcon />
+          </IconButton>
+        </a>
       </>
     ),
   }));

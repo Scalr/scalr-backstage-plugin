@@ -53,6 +53,7 @@ export async function createEnvironmentService({
       const result: Environment = {
         name: environment.data.attributes.name,
         id: environment.data.id,
+        baseUrl: new URL(environment.data.links.self).host,
         workspaces: await Promise.all(workspacePromises),
       };
 
