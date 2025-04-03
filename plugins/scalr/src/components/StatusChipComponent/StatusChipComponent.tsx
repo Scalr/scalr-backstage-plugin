@@ -17,6 +17,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
     borderRadius: '9999px',
     fontSize: '14px',
     fontWeight: 500,
+    backgroundColor: '#00000020',
   };
 
   // blue / pending;
@@ -31,9 +32,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
     ].includes(status)
   )
     return (
-      <div
-        style={{ ...pillStyle, backgroundColor: '#276dee20', color: '#276dee' }}
-      >
+      <div style={{ ...pillStyle, color: '#276dee' }}>
         <CircularProgress color="inherit" size={14} />
         {status}
       </div>
@@ -41,9 +40,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
   // yellow / warning
   if (['policy_override'].includes(status))
     return (
-      <div
-        style={{ ...pillStyle, backgroundColor: '#fa8c1620', color: '#fa8c16' }}
-      >
+      <div style={{ ...pillStyle, color: '#fa8c16' }}>
         <ErrorOutlineIcon style={{ height: '18px', width: '18px' }} />
         {status}
       </div>
@@ -51,9 +48,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
   // red / errored
   if (['errored'].includes(status))
     return (
-      <div
-        style={{ ...pillStyle, backgroundColor: '#D3121220', color: '#D31212' }}
-      >
+      <div style={{ ...pillStyle, color: '#D31212' }}>
         <ErrorOutlineIcon style={{ height: '18px', width: '18px' }} />
         {status}
       </div>
@@ -72,8 +67,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
       <div
         style={{
           ...pillStyle,
-          backgroundColor: '#389E8420',
-          color: '#389E84',
+          color: '#18AE94',
         }}
       >
         <CheckCircleOutlineIcon style={{ height: '18px', width: '18px' }} />
@@ -81,11 +75,5 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
       </div>
     );
   // grey / default
-  return (
-    <div
-      style={{ ...pillStyle, backgroundColor: '#00000020', color: '#000000' }}
-    >
-      {status}
-    </div>
-  );
+  return <div style={{ ...pillStyle, color: '#ffffff' }}>{status}</div>;
 };

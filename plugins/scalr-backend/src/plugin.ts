@@ -4,6 +4,7 @@ import {
 } from '@backstage/backend-plugin-api';
 import { createRouter } from './router';
 import { createEnvironmentService } from './services/EnvironmentService';
+import { createWorkspaceService } from './services/WorkspaceService';
 
 /**
  * scalrPlugin backend plugin
@@ -26,11 +27,16 @@ export const scalrPlugin = createBackendPlugin({
           logger,
           config,
         });
+        const workspaceService = await createWorkspaceService({
+          logger,
+          config,
+        });
 
         httpRouter.use(
           await createRouter({
             httpAuth,
             environmentService,
+            workspaceService,
           }),
         );
       },
