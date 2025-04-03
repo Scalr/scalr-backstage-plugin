@@ -4,6 +4,7 @@ import {
 } from '@backstage/backend-plugin-api';
 import { WorkspaceService } from './types';
 import { ScalrApi } from './../../api/ScalrApi';
+import { NotFoundError } from '@backstage/errors';
 
 export async function createWorkspaceService({
   logger,
@@ -20,9 +21,19 @@ export async function createWorkspaceService({
     async createRun(request: { id: string }) {
       logger.info(`workspace/runs/${request.id} was requested`);
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      const workspaces = await scalrApi.getWorkspace(request.id);
+      if (!workspaces)
+        throw new NotFoundError(
+          `Error fetching workspaces with environment - '${request.id}'`,
+        );
 
-      return 200;
+      const run = await scalrApi.createRun(
+        workspaces.data.id,
+        workspaces.data.relationships['configuration-version'].data.id,
+        workspaces.data.relationships['latest-run'].data.id,
+      );
+
+      return run;
     },
   };
 }

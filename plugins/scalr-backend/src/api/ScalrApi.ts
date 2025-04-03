@@ -51,6 +51,25 @@ export class ScalrApi {
       });
   }
 
+  getWorkspace(id: string): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/workspaces/${id}`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching workspaces:', err);
+        throw err;
+      });
+  }
+
   getRun(run: string): Promise<any> {
     const options = {
       method: 'GET',
