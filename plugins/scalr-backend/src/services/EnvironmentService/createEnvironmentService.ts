@@ -5,7 +5,7 @@ import {
 import { NotFoundError } from '@backstage/errors';
 import { EnvironmentService } from './types';
 import { ScalrApi } from './../../api/ScalrApi';
-import { Environment, Workspace } from '../types';
+import { Environment, Workspace } from '../../types';
 
 export async function createEnvironmentService({
   logger,

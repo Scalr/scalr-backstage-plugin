@@ -89,6 +89,25 @@ export class ScalrApi {
       });
   }
 
+  listRuns(workspace: string): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/runs?filter[workspace]=${workspace}`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching runs:', err);
+        throw err;
+      });
+  }
+
   getRun(run: string): Promise<any> {
     const options = {
       method: 'GET',

@@ -7,22 +7,7 @@ import { useRouteRef } from '@backstage/core-plugin-api';
 import { workspaceRouteRef } from '../../routes';
 import { Link } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
-
-export interface Workspace {
-  name: string;
-  id: string;
-  type?: string;
-  last_execution_state?: string;
-  last_execution_time?: string;
-  last_execution_user?: string;
-}
-
-export interface Environment {
-  name: string;
-  id: string;
-  baseUrl: string;
-  workspaces: Workspace[];
-}
+import { Environment } from '../../types';
 
 type WorkspaceTableProps = {
   environment: Environment;

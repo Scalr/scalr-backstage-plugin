@@ -34,6 +34,15 @@ export async function createRouter({
     );
   });
 
+  router.get('/workspace/:id/runs', async (req, res) => {
+    res.json(
+      await workspaceService.listRuns(
+        { workspace: req.params.id },
+        { credentials: await httpAuth.credentials(req, { allow: ['user'] }) },
+      ),
+    );
+  });
+
   router.post('/workspace/runs/:id', async (req, res) => {
     res.json(
       await workspaceService.createRun(

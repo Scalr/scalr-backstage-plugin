@@ -5,6 +5,7 @@ import {
 import { WorkspaceService } from './types';
 import { ScalrApi } from './../../api/ScalrApi';
 import { NotFoundError } from '@backstage/errors';
+import { Run, Workspace } from '../../types';
 
 export async function createWorkspaceService({
   logger,
@@ -34,6 +35,27 @@ export async function createWorkspaceService({
       );
 
       return run;
+    },
+
+    async listRuns(request: { workspace: string }) {
+      logger.info(`workspace/runs/${request.workspace} was requested`);
+
+      const workspace: Workspace = {
+        id: request.workspace,
+        runs: (await scalrApi.listRuns(request.workspace)).data.map(
+          (run: any) => {
+            return {
+              id: run.id,
+            } as Run;
+          },
+        ),
+      };
+      if (!workspace)
+        throw new NotFoundError(
+          `Error fetching runs from workspace - '${request.workspace}'`,
+        );
+
+      return workspace;
     },
   };
 }
