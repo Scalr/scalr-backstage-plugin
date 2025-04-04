@@ -1,0 +1,1 @@
+export { WorkspaceDetailsFetchComponet } from './WorkspaceDetailsFetchComponet';

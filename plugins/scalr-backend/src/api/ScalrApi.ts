@@ -13,6 +13,25 @@ export class ScalrApi {
     this.logger = logger;
   }
 
+  getEnvironments(): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/environments`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching environments:', err);
+        throw err;
+      });
+  }
+
   getEnvironment(id: string): Promise<any> {
     const options = {
       method: 'GET',
@@ -93,7 +112,8 @@ export class ScalrApi {
     workspace: string,
     configVersion: string,
     createdByRun: string,
-    isDryRun: boolean = true,
+    isDryRun: boolean = false,
+    autoApply?: boolean,
   ): Promise<any> {
     const options = {
       method: 'POST',
@@ -106,6 +126,7 @@ export class ScalrApi {
       data: {
         data: {
           attributes: {
+            'auto-apply': autoApply,
             'is-dry': isDryRun,
             message: 'triggered via Backstsage',
             source: 'api',

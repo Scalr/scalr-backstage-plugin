@@ -16,6 +16,15 @@ export async function createRouter({
   const router = Router();
   router.use(express.json());
 
+  router.get('/environments', async (req, res) => {
+    res.json(
+      await environmentService.getEnvironments(
+        {},
+        { credentials: await httpAuth.credentials(req, { allow: ['user'] }) },
+      ),
+    );
+  });
+
   router.get('/environments/:id', async (req, res) => {
     res.json(
       await environmentService.getEnvironment(

@@ -200,7 +200,7 @@ const websiteEntityPage = (
     <EntityLayout.Route path="/ci-cd" title="CI/CD">
       {cicdContent}
     </EntityLayout.Route>
-    <EntityLayout.Route path="/scalr" title="Scalr Environment">
+    <EntityLayout.Route path="/scalr" title="Scalr">
       <EntityScalrEnvironmentContent />
     </EntityLayout.Route>
     <EntityLayout.Route

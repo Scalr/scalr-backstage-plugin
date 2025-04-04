@@ -6836,7 +6836,6 @@ __metadata:
     express: "npm:^4.17.1"
     express-promise-router: "npm:^4.1.0"
     supertest: "npm:^6.2.4"
-    zod: "npm:^3.22.4"
   languageName: unknown
   linkType: soft
 
@@ -6865,6 +6864,7 @@ __metadata:
     react-use: "npm:^17.2.4"
   peerDependencies:
     react: ^16.13.1 || ^17.0.0 || ^18.0.0
+    react-router-dom: "*"
   languageName: unknown
   linkType: soft
 

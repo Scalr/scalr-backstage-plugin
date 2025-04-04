@@ -3,6 +3,10 @@ import { Table, TableColumn } from '@backstage/core-components';
 import { DateTimeDisplayComponent } from '../DateTimeComponent';
 import { StatusChipComponent } from '../StatusChipComponent';
 import { WorkspaceActions } from './WorkspaceActions';
+import { useRouteRef } from '@backstage/core-plugin-api';
+import { workspaceRouteRef } from '../../routes';
+import { Link } from '@material-ui/core';
+import { useNavigate } from 'react-router-dom';
 
 export interface Workspace {
   name: string;
@@ -27,6 +31,9 @@ type WorkspaceTableProps = {
 export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({
   environment,
 }) => {
+  const navigate = useNavigate();
+  const detailsLink = useRouteRef(workspaceRouteRef);
+
   const columns: TableColumn[] = [
     { title: 'Name', field: 'name' },
     { title: 'ID', field: 'id' },
@@ -37,7 +44,11 @@ export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({
   ];
 
   const data = environment.workspaces.map(workspace => ({
-    name: workspace.name,
+    name: (
+      <Link onClick={() => navigate(detailsLink({ id: workspace.id }))}>
+        {workspace.name}
+      </Link>
+    ),
     id: workspace.id,
     type: workspace.type,
     last_execution: (

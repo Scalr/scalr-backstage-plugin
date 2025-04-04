@@ -3,8 +3,9 @@ import {
   RootConfigService,
 } from '@backstage/backend-plugin-api';
 import { NotFoundError } from '@backstage/errors';
-import { Environment, EnvironmentService, Workspace } from './types';
+import { EnvironmentService } from './types';
 import { ScalrApi } from './../../api/ScalrApi';
+import { Environment, Workspace } from '../types';
 
 export async function createEnvironmentService({
   logger,
@@ -18,8 +19,26 @@ export async function createEnvironmentService({
   const scalrApi = new ScalrApi(config, logger);
 
   return {
+    async getEnvironments(request: {}) {
+      logger.info(`/environments was requested`);
+
+      const environments = await scalrApi.getEnvironments();
+      if (!environments) throw new NotFoundError('Error fetching environments');
+
+      const result: Environment[] = environments.map((environment: any) => {
+        return {
+          name: environment.data.attributes.name,
+          id: environment.data.id,
+          baseUrl: new URL(environment.data.links.self).host,
+          workspaces: [],
+        } as Environment;
+      });
+
+      return result;
+    },
+
     async getEnvironment(request: { id: string }) {
-      logger.info(`/environment/${request.id} was requested`);
+      logger.info(`/environments/${request.id} was requested`);
 
       const environment = await scalrApi.getEnvironment(request.id);
       if (!environment)
