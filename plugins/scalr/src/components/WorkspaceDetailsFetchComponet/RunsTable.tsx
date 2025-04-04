@@ -39,7 +39,8 @@ export const RunsTable: React.FC<RunsTableProps> = ({ workspace }) => {
           {workspace.id}
         </>
       }
-      options={{ search: true, paging: false }}
+      options={{ search: true, paging: true }}
+      // TODO: Add proper pagination with api or limit returned runs to resonable number
       columns={columns}
       data={data}
     />
