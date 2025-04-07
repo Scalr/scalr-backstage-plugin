@@ -34,7 +34,11 @@ export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({
         {workspace.name}
       </Link>
     ),
-    id: workspace.id,
+    id: (
+      <Link onClick={() => navigate(detailsLink({ id: workspace.id }))}>
+        {workspace.id}
+      </Link>
+    ),
     type: workspace.type,
     last_execution: (
       <>

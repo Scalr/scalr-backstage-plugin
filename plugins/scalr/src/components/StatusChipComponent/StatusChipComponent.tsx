@@ -1,6 +1,8 @@
 import { CircularProgress } from '@material-ui/core';
 import CheckCircleOutlineIcon from '@material-ui/icons/CheckCircleOutline';
 import ErrorOutlineIcon from '@material-ui/icons/ErrorOutline';
+import ScheduleIcon from '@material-ui/icons/Schedule';
+import PolicyOutlinedIcon from '@material-ui/icons/PolicyOutlined';
 import React from 'react';
 
 type StatusChipComponentProps = {
@@ -23,7 +25,6 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
   // blue / pending;
   if (
     [
-      'pending',
       'plan_queued',
       'planning',
       'confirmed',
@@ -37,12 +38,16 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
         {status.replaceAll('_', ' ')}
       </div>
     );
-  // yellow / warning
-  if (['policy_override'].includes(status))
+  // yellow / pending approval
+  if (
+    ['policy_override', 'planned', 'cost_estimated', 'policy_checked'].includes(
+      status,
+    )
+  )
     return (
-      <div style={{ ...pillStyle, color: '#fa8c16' }}>
-        <ErrorOutlineIcon style={{ height: '18px', width: '18px' }} />
-        {status.replaceAll('_', ' ')}
+      <div style={{ ...pillStyle, color: '#fa8c16', margin: '6px 0 0 0' }}>
+        <PolicyOutlinedIcon style={{ height: '18px', width: '18px' }} />
+        approval required
       </div>
     );
   // red / errored
@@ -54,15 +59,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
       </div>
     );
   // green / success
-  if (
-    [
-      'planned',
-      'cost_estimated',
-      'policy_checked',
-      'applied',
-      'planned_and_finished',
-    ].includes(status)
-  )
+  if (['applied', 'planned_and_finished'].includes(status))
     return (
       <div
         style={{
@@ -76,7 +73,8 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
     );
   // grey / default
   return (
-    <div style={{ ...pillStyle, color: '#ffffff' }}>
+    <div style={{ ...pillStyle, color: '#bbbbbb' }}>
+      <ScheduleIcon style={{ height: '18px', width: '18px' }} />
       {status.replaceAll('_', ' ')}
     </div>
   );
