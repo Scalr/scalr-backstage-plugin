@@ -34,7 +34,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
     return (
       <div style={{ ...pillStyle, color: '#276dee' }}>
         <CircularProgress color="inherit" size={14} />
-        {status}
+        {status.replaceAll('_', ' ')}
       </div>
     );
   // yellow / warning
@@ -42,7 +42,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
     return (
       <div style={{ ...pillStyle, color: '#fa8c16' }}>
         <ErrorOutlineIcon style={{ height: '18px', width: '18px' }} />
-        {status}
+        {status.replaceAll('_', ' ')}
       </div>
     );
   // red / errored
@@ -50,7 +50,7 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
     return (
       <div style={{ ...pillStyle, color: '#D31212' }}>
         <ErrorOutlineIcon style={{ height: '18px', width: '18px' }} />
-        {status}
+        {status.replaceAll('_', ' ')}
       </div>
     );
   // green / success
@@ -71,9 +71,13 @@ export const StatusChipComponent = ({ status }: StatusChipComponentProps) => {
         }}
       >
         <CheckCircleOutlineIcon style={{ height: '18px', width: '18px' }} />
-        {status}
+        {status.replaceAll('_', ' ')}
       </div>
     );
   // grey / default
-  return <div style={{ ...pillStyle, color: '#ffffff' }}>{status}</div>;
+  return (
+    <div style={{ ...pillStyle, color: '#ffffff' }}>
+      {status.replaceAll('_', ' ')}
+    </div>
+  );
 };

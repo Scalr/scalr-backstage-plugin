@@ -6,6 +6,8 @@ import { useNavigate } from 'react-router-dom';
 import { useRouteRef } from '@backstage/core-plugin-api';
 import { rootRouteRef } from '../../routes';
 import { Workspace } from '../../types';
+import { DateTimeDisplayComponent } from '../DateTimeComponent';
+import { StatusChipComponent } from '../StatusChipComponent';
 
 type RunsTableProps = {
   workspace: Workspace;
@@ -15,11 +17,25 @@ export const RunsTable: React.FC<RunsTableProps> = ({ workspace }) => {
   const navigate = useNavigate();
   const rootLink = useRouteRef(rootRouteRef);
 
-  const columns: TableColumn[] = [{ title: 'ID', field: 'id' }];
+  const columns: TableColumn[] = [
+    { title: 'ID', field: 'id' },
+    { title: 'Message', field: 'message' },
+    { title: 'State', field: 'state' },
+    { title: 'Trigger', field: 'trigger' },
+  ];
 
   const data = (workspace.runs || []).map(run => {
     return {
       id: run.id,
+      message: run.message,
+      state: <StatusChipComponent status={run.state} />,
+      trigger: (
+        <>
+          {run.source}
+          <DateTimeDisplayComponent dateTime={run.time} />
+          {run.user}
+        </>
+      ),
     };
   });
 

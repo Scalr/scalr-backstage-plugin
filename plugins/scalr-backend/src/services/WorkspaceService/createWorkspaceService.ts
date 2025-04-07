@@ -46,6 +46,11 @@ export async function createWorkspaceService({
           (run: any) => {
             return {
               id: run.id,
+              message: run.attributes.message,
+              state: run.attributes.status,
+              time: run.attributes['created-at'],
+              user: '',
+              source: run.attributes.source,
             } as Run;
           },
         ),

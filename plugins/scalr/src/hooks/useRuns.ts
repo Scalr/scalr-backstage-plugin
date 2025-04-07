@@ -31,7 +31,7 @@ export function useRuns(id: string) {
 
         setWorkspace(res.data);
       } catch (err) {
-        setError(new Error('Failed to fetch environments'));
+        setError(new Error('Failed to fetch runs'));
       } finally {
         setLoading(false);
       }
