@@ -7,5 +7,6 @@ export interface Workspace {
   last_execution_state?: string;
   last_execution_time?: string;
   last_execution_user?: string;
+  url?: string;
   runs?: Run[];
 }

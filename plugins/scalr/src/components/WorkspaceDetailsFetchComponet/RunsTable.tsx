@@ -8,6 +8,7 @@ import { rootRouteRef } from '../../routes';
 import { Workspace } from '../../types';
 import { DateTimeDisplayComponent } from '../DateTimeComponent';
 import { StatusChipComponent } from '../StatusChipComponent';
+import { RunsActions } from './RunsActions';
 
 type RunsTableProps = {
   workspace: Workspace;
@@ -22,6 +23,7 @@ export const RunsTable: React.FC<RunsTableProps> = ({ workspace }) => {
     { title: 'Message', field: 'message' },
     { title: 'State', field: 'state' },
     { title: 'Trigger', field: 'trigger' },
+    { title: 'Actions', field: 'actions' },
   ];
 
   const data = (workspace.runs || []).map(run => {
@@ -36,6 +38,7 @@ export const RunsTable: React.FC<RunsTableProps> = ({ workspace }) => {
           {run.user}
         </>
       ),
+      actions: <RunsActions url={run.url || ''} />,
     };
   });
 

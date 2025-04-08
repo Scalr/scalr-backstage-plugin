@@ -54,11 +54,7 @@ export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({
       />
     ),
     actions: (
-      <WorkspaceActions
-        workspaceId={workspace.id}
-        environmentId={environment.id}
-        baseUrl={environment.baseUrl}
-      />
+      <WorkspaceActions workspaceId={workspace.id} url={workspace.url || ''} />
     ),
   }));
 

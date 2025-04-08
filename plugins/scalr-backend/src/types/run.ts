@@ -5,4 +5,5 @@ export interface Run {
   time: string;
   user: string;
   source: string;
+  url?: string;
 }

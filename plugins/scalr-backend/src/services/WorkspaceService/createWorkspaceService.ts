@@ -44,6 +44,10 @@ export async function createWorkspaceService({
         id: request.workspace,
         runs: (await scalrApi.listRuns(request.workspace)).data.map(
           (run: any) => {
+            const url = `https://${new URL(run.links.self).host}/v2/e/${
+              run.relationships.environment.data.id
+            }/workspaces/${run.relationships.workspace.data.id}/runs/${run.id}`;
+
             return {
               id: run.id,
               message: run.attributes.message,
@@ -51,6 +55,7 @@ export async function createWorkspaceService({
               time: run.attributes['created-at'],
               user: '',
               source: run.attributes.source,
+              url: url,
             } as Run;
           },
         ),

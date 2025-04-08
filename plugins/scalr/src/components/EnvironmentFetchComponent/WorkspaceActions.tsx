@@ -5,15 +5,13 @@ import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import { useWorkspace } from '../../hooks';
 
 interface WorkspaceActionsProps {
+  url: string;
   workspaceId: string;
-  environmentId: string;
-  baseUrl: string;
 }
 
 export const WorkspaceActions: React.FC<WorkspaceActionsProps> = ({
+  url,
   workspaceId,
-  environmentId,
-  baseUrl,
 }) => {
   const [loading, setLoading] = useState(false);
   const { triggerRun } = useWorkspace(workspaceId);
@@ -41,11 +39,7 @@ export const WorkspaceActions: React.FC<WorkspaceActionsProps> = ({
       >
         {loading ? <CircularProgress size={20} /> : <PlayArrowIcon />}
       </IconButton>
-      <a
-        href={`https://${baseUrl}/v2/e/${environmentId}/workspaces/${workspaceId}/`}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
+      <a href={url} target="_blank" rel="noopener noreferrer">
         <IconButton aria-label="Open Workspace in Scalr">
           <OpenInNewIcon />
         </IconButton>

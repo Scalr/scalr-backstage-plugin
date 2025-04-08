@@ -59,6 +59,10 @@ export async function createEnvironmentService({
             `Error fetching run - '${workspace.relationships['latest-run'].data.id}'`,
           );
 
+        const url = `https://${new URL(workspace.links.self).host}/v2/e/${
+          request.id
+        }/workspaces/${workspace.id}/`;
+
         return {
           name: workspace.attributes.name,
           id: workspace.id,
@@ -66,6 +70,7 @@ export async function createEnvironmentService({
           last_execution_state: run.data.attributes.status,
           last_execution_time: workspace.attributes['updated-at'],
           last_execution_user: workspace.attributes['updated-by-email'],
+          url: url,
         } as Workspace;
       });
 

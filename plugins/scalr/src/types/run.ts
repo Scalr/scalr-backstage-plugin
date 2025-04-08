@@ -3,6 +3,7 @@ export interface Run {
   message: string;
   state: string;
   time: string;
-  user: string;
+  user?: string;
   source: string;
+  url?: string;
 }
