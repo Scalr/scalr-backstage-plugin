@@ -19,7 +19,7 @@ export async function createEnvironmentService({
   const scalrApi = new ScalrApi(config, logger);
 
   return {
-    async getEnvironments(request: {}) {
+    async getEnvironments(_request: {}) {
       logger.info(`/environments was requested`);
 
       const environments = await scalrApi.getEnvironments();

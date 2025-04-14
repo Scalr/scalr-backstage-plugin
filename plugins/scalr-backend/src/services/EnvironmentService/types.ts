@@ -2,7 +2,7 @@ import {
   BackstageCredentials,
   BackstageUserPrincipal,
 } from '@backstage/backend-plugin-api';
-import { Environment } from '../types';
+import { Environment } from '../../types';
 
 export interface EnvironmentService {
   getEnvironments(
