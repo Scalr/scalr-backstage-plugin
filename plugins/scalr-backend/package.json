@@ -1,5 +1,5 @@
 {
-  "name": "@internal/plugin-scalr-backend",
+  "name": "@Scalr/backstage-plugin-scalr-backend",
   "version": "0.1.0",
   "license": "Apache-2.0",
   "private": true,
@@ -8,10 +8,16 @@
   "publishConfig": {
     "access": "public",
     "main": "dist/index.cjs.js",
-    "types": "dist/index.d.ts"
+    "types": "dist/index.d.ts",
+    "registry": "https://npm.pkg.github.com/"
   },
   "backstage": {
-    "role": "backend-plugin"
+    "role": "backend-plugin",
+    "pluginId": "scalr",
+    "pluginPackages": [
+      "@Scalr/backstage-plugin-scalr",
+      "@Scalr/backstage-plugin-scalr-backend"
+    ]
   },
   "scripts": {
     "start": "backstage-cli package start",

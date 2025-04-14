@@ -3,7 +3,9 @@
 apiVersion: backstage.io/v1alpha1
 kind: System
 metadata:
-  name: examples
+  name: example
+  annotations:
+    scalr.com/environment: env-v0ooqfj2aa78n0d9dx
 spec:
   owner: guests
 ---

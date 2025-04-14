@@ -58,7 +58,7 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
-import { EntityScalrEnvironmentContent } from '@internal/plugin-scalr';
+import { EntityScalrEnvironmentContent } from '@Scalr/backstage-plugin-scalr';
 
 const techdocsContent = (
   <EntityTechdocsContent>
@@ -356,6 +356,9 @@ const systemPage = (
           <EntityHasResourcesCard variant="gridItem" />
         </Grid>
       </Grid>
+    </EntityLayout.Route>
+    <EntityLayout.Route path="/scalr" title="Scalr">
+      <EntityScalrEnvironmentContent />
     </EntityLayout.Route>
     <EntityLayout.Route path="/diagram" title="Diagram">
       <EntityCatalogGraphCard
