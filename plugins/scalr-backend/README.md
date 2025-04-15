@@ -1,28 +1,116 @@
-# scalr
+# Scalr Backstage Plugin (Frontend & Backend)
 
-This plugin backend was templated using the Backstage CLI. You should replace this text with a description of your plugin backend.
+This repository provides both the **frontend** and **backend** plugins required to integrate **Scalr** with **Backstage**.
 
-## Installation
+---
 
-This plugin is installed via the `@internal/plugin-scalr-backend` package. To install it to your backend package, run the following command:
+## 🔧 Setup
+
+### Backend Plugin
+
+#### Installation
+
+Install the backend plugin from the GitHub release:
 
 ```bash
-# From your root directory
-yarn --cwd packages/backend add @internal/plugin-scalr-backend
+yarn workspace backend add @scalr-io/backstage-plugin-scalr-backend
 ```
 
-Then add the plugin to your backend in `packages/backend/src/index.ts`:
+#### Integration
 
-```ts
+Add the plugin to your Backstage backend:
+
+```diff
+// packages/backend/src/index.ts
+
+import { createBackend } from '@backstage/backend-defaults';
 const backend = createBackend();
-// ...
-backend.add(import('@internal/plugin-scalr-backend'));
+...
++ backend.add(import('@scalr-io/backstage-plugin-scalr-backend'));
+
+backend.start();
 ```
 
-## Development
+---
 
-This plugin backend can be started in a standalone mode from directly in this
-package with `yarn start`. It is a limited setup that is most convenient when
-developing the plugin backend itself.
+### Frontend Plugin
 
-If you want to run the entire project, including the frontend, run `yarn dev` from the root directory.
+#### Installation
+
+Install the frontend plugin from the GitHub release:
+
+```bash
+yarn workspace app add @scalr-io/backstage-plugin-scalr
+```
+
+#### Integration
+
+Add the plugin route to your entity page:
+
+```diff
+// packages/app/src/components/catalog/EntityPage.ts
+
++ import { EntityScalrEnvironmentContent } from '@scalr-io/backstage-plugin-scalr';
+
+const domainPage = (
+  <EntityLayout>
+    <EntityLayout.Route path="/" title="Overview">
+      <Grid container spacing={3} alignItems="stretch">
+        {entityWarningContent}
+        <Grid item md={6}>
+          <EntityAboutCard variant="gridItem" />
+        </Grid>
+        <Grid item md={6} xs={12}>
+          <EntityCatalogGraphCard variant="gridItem" height={400} />
+        </Grid>
+        <Grid item md={6}>
+          <EntityHasSystemsCard variant="gridItem" />
+        </Grid>
+      </Grid>
+    </EntityLayout.Route>
+
++   <EntityLayout.Route path="/scalr" title="Scalr">
++     <EntityScalrEnvironmentContent />
++   </EntityLayout.Route>
+  </EntityLayout>
+);
+```
+
+> ℹ️ You can integrate the plugin into any entity page based on your organizational structure. You can also extend the catalog with custom entity kinds and attach the plugin accordingly.
+
+---
+
+### Configuration
+
+The backend requires authentication credentials to access the Scalr API. Add the following to your `app-config.local.yaml` (or equivalent):
+
+```yaml
+# app-config.local.yaml
+
+integrations:
+  scalr:
+    api-token: <YOUR_API_TOKEN>
+    base-url: <YOUR_BASE_URL>
+```
+
+- **API Token:** Obtain it via the Scalr UI under your user profile → _Personal Access Tokens_.
+- **Base URL:** This is the hostname of your Scalr instance (e.g. `organization.scalr.io`), which you’ll see in your browser's address bar when logged in.
+
+---
+
+## 🚀 Usage
+
+To enable the plugin on a specific entity, add the following annotation to its metadata:
+
+```yaml
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: example
+  annotations:
+    scalr.com/environment: <ENVIRONMENT_ID>
+spec:
+  owner: guests
+```
+
+> 🔖 Replace `<ENVIRONMENT_ID>` with the ID of the Scalr environment you want to associate.

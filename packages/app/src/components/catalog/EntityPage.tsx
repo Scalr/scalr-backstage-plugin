@@ -58,7 +58,7 @@ import {
   EntityKubernetesContent,
   isKubernetesAvailable,
 } from '@backstage/plugin-kubernetes';
-import { EntityScalrEnvironmentContent } from '@Scalr/backstage-plugin-scalr';
+import { EntityScalrEnvironmentContent } from '@scalr-io/backstage-plugin-scalr';
 
 const techdocsContent = (
   <EntityTechdocsContent>
