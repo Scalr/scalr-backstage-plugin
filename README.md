@@ -13,10 +13,8 @@ This repository provides both the **frontend** and **backend** plugins required 
 Install the backend plugin from the GitHub release:
 
 ```bash
-yarn workspace backend add backstage-plugin-scalr-backend@https://github.com/Scalr/scalr-backstage-plugin/releases/download/scalr-backend-v0.1.0/backstage-plugin-scalr-backend-v0.1.0.tgz
+yarn workspace backend add @scalr-io/backstage-plugin-scalr-backend
 ```
-
-> ℹ️ You can find all releases here: https://github.com/Scalr/scalr-backstage-plugin/releases
 
 #### Integration
 
@@ -28,7 +26,7 @@ Add the plugin to your Backstage backend:
 import { createBackend } from '@backstage/backend-defaults';
 const backend = createBackend();
 ...
-+ backend.add(import('backstage-plugin-scalr-backend'));
++ backend.add(import('@scalr-io/backstage-plugin-scalr-backend'));
 
 backend.start();
 ```
@@ -42,10 +40,8 @@ backend.start();
 Install the frontend plugin from the GitHub release:
 
 ```bash
-yarn workspace app add backstage-plugin-scalr@https://github.com/Scalr/scalr-backstage-plugin/releases/download/scalr-v0.1.0/backstage-plugin-scalr-v0.1.0.tgz
+yarn workspace app add @scalr-io/backstage-plugin-scalr
 ```
-
-> ℹ️ You can find all releases here: https://github.com/Scalr/scalr-backstage-plugin/releases
 
 #### Integration
 
@@ -54,7 +50,7 @@ Add the plugin route to your entity page:
 ```diff
 // packages/app/src/components/catalog/EntityPage.ts
 
-+ import { EntityScalrEnvironmentContent } from 'backstage-plugin-scalr';
++ import { EntityScalrEnvironmentContent } from '@scalr-io/backstage-plugin-scalr';
 
 const domainPage = (
   <EntityLayout>

@@ -1,6 +1,6 @@
 import { Config } from '@backstage/config';
 import axios from 'axios';
-import { LoggerService } from '@backstage/backend-plugin-api/*';
+import { LoggerService } from '@backstage/backend-plugin-api';
 
 export class ScalrApi {
   private readonly token: string;

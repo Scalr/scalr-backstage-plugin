@@ -52,5 +52,5 @@ backend.add(import('@backstage/plugin-search-backend-module-techdocs'));
 // kubernetes
 backend.add(import('@backstage/plugin-kubernetes-backend'));
 
-backend.add(import('@Scalr/backstage-plugin-scalr-backend'));
+backend.add(import('@scalr-io/backstage-plugin-scalr-backend'));
 backend.start();
