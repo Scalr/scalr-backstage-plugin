@@ -7,12 +7,13 @@ import {
 } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Environment } from '../types';
 
 export function useEnvironment(id: string) {
   const configApi: ConfigApi = useApi(configApiRef);
   const identityApi: IdentityApi = useApi(identityApiRef);
 
-  const [environment, setEnvironment] = useState<any>(null);
+  const [environment, setEnvironment] = useState<Environment | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 

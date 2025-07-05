@@ -1,0 +1,1 @@
+export { EntityScalrContent } from './EntityScalrContent';

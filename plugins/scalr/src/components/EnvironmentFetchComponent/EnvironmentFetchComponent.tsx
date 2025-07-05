@@ -1,7 +1,7 @@
 import React from 'react';
 import { Progress, ResponseErrorPanel } from '@backstage/core-components';
 import { useEnvironment } from '../../hooks';
-import { WorkspaceTable } from './WorkspaceTable';
+import { WorkspaceTableComponent } from '../WorkspaceTableComponent';
 
 type EnvironmentFetchComponentProps = {
   id: string;
@@ -15,5 +15,10 @@ export const EnvironmentFetchComponent: React.FC<
   if (loading) return <Progress />;
   if (error) return <ResponseErrorPanel error={error} />;
 
-  return <WorkspaceTable environment={environment} />;
+  return (
+    <WorkspaceTableComponent
+      title={environment!.name}
+      workspaces={environment!.workspaces}
+    />
+  );
 };

@@ -3,15 +3,18 @@ import express from 'express';
 import Router from 'express-promise-router';
 import { EnvironmentService } from './services/EnvironmentService/types';
 import { WorkspaceService } from './services/WorkspaceService/types';
+import { TagService } from './services/TagService/types';
 
 export async function createRouter({
   httpAuth,
   environmentService,
   workspaceService,
+  tagService,
 }: {
   httpAuth: HttpAuthService;
   environmentService: EnvironmentService;
   workspaceService: WorkspaceService;
+  tagService: TagService;
 }): Promise<express.Router> {
   const router = Router();
   router.use(express.json());
@@ -29,6 +32,15 @@ export async function createRouter({
     res.json(
       await environmentService.getEnvironment(
         { id: req.params.id },
+        { credentials: await httpAuth.credentials(req, { allow: ['user'] }) },
+      ),
+    );
+  });
+
+  router.get('/tag/:name', async (req, res) => {
+    res.json(
+      await tagService.getTag(
+        { name: req.params.name },
         { credentials: await httpAuth.credentials(req, { allow: ['user'] }) },
       ),
     );

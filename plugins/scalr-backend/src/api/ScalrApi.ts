@@ -51,10 +51,48 @@ export class ScalrApi {
       });
   }
 
+  getTag(name: string): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/tags?filter[name]=${name}`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching environment:', err);
+        throw err;
+      });
+  }
+
   getWorkspaces(environment: string): Promise<any> {
     const options = {
       method: 'GET',
       url: `https://${this.baseUrl}/api/iacp/v3/workspaces?filter[environment]=${environment}`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching workspaces:', err);
+        throw err;
+      });
+  }
+
+  getWorkspacesByTag(tag: string): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/workspaces?filter[tag]=${tag}`,
       headers: {
         accept: 'application/vnd.api+json',
         authorization: `Bearer ${this.token}`,
