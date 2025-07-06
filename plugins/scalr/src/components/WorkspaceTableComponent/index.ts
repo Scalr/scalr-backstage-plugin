@@ -1,0 +1,1 @@
+export { WorkspaceTableComponent } from './WorkspaceTableComponent';

@@ -5,7 +5,8 @@ kind: System
 metadata:
   name: example
   annotations:
-    scalr.com/environment: env-v0ooqfj2aa78n0d9dx
+    scalr.com/environment: env-v0ooqfj2aa78n0d9d
+    scalr.com/tag: THISISATEST
 spec:
   owner: guests
 ---

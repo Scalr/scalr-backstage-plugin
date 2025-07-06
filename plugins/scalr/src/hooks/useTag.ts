@@ -7,21 +7,22 @@ import {
 } from '@backstage/core-plugin-api';
 import { useEffect, useState } from 'react';
 import axios from 'axios';
+import { Tag } from '../types/tag';
 
-export function useEnvironments() {
+export function useTag(tagName: string) {
   const configApi: ConfigApi = useApi(configApiRef);
   const identityApi: IdentityApi = useApi(identityApiRef);
 
-  const [environments, setEnvironments] = useState<any>(null);
+  const [tag, setTag] = useState<Tag | null>(null);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const fetchEnvironments = async () => {
+    const fetchTag = async () => {
       try {
         const backendBaseUrl: string = configApi.getString('backend.baseUrl');
         const credentials = await identityApi.getCredentials();
-        const url: string = `${backendBaseUrl}/api/scalr/environments`;
+        const url: string = `${backendBaseUrl}/api/scalr/tag/${tagName}`;
 
         const res = await axios.get(url, {
           headers: {
@@ -29,16 +30,16 @@ export function useEnvironments() {
           },
         });
 
-        setEnvironments(res.data);
+        setTag(res.data);
       } catch (err) {
-        setError(new Error('Failed to fetch environments'));
+        setError(new Error('Failed to fetch tag'));
       } finally {
         setLoading(false);
       }
     };
 
-    fetchEnvironments();
-  }, [configApi, identityApi]);
+    fetchTag();
+  }, [tagName, configApi, identityApi]);
 
-  return { environments, loading, error };
+  return { tag, loading, error };
 }

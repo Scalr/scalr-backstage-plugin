@@ -2,19 +2,21 @@ import React from 'react';
 import { Table, TableColumn } from '@backstage/core-components';
 import { DateTimeDisplayComponent } from '../DateTimeComponent';
 import { StatusChipComponent } from '../StatusChipComponent';
-import { WorkspaceActions } from './WorkspaceActions';
 import { useRouteRef } from '@backstage/core-plugin-api';
 import { workspaceRouteRef } from '../../routes';
 import { Link } from '@material-ui/core';
 import { useNavigate } from 'react-router-dom';
-import { Environment } from '../../types';
+import { Workspace } from '../../types';
+import { WorkspaceActions } from './WorkspaceActions';
 
 type WorkspaceTableProps = {
-  environment: Environment;
+  title: string;
+  workspaces: Workspace[];
 };
 
-export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({
-  environment,
+export const WorkspaceTableComponent: React.FC<WorkspaceTableProps> = ({
+  title,
+  workspaces,
 }) => {
   const navigate = useNavigate();
   const detailsLink = useRouteRef(workspaceRouteRef);
@@ -28,7 +30,7 @@ export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({
     { title: 'Actions', field: 'actions' },
   ];
 
-  const data = environment.workspaces.map(workspace => ({
+  const data = workspaces.map(workspace => ({
     name: (
       <Link onClick={() => navigate(detailsLink({ id: workspace.id }))}>
         {workspace.name}
@@ -60,7 +62,7 @@ export const WorkspaceTable: React.FC<WorkspaceTableProps> = ({
 
   return (
     <Table
-      title={environment.name}
+      title={title}
       options={{ search: true, paging: false }}
       columns={columns}
       data={data}

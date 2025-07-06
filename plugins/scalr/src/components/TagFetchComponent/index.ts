@@ -1,0 +1,1 @@
+export { TagFetchComponent } from './TagFetchComponent';
