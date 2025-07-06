@@ -100,7 +100,9 @@ integrations:
 
 ## 🚀 Usage
 
-To enable the plugin on a specific entity, add the following annotation to its metadata:
+You can filter displayed Workspaces by Environment or Tag using the appropriate annotations:
+
+### 🔧 Filter by Environment
 
 ```yaml
 apiVersion: backstage.io/v1alpha1
@@ -114,3 +116,20 @@ spec:
 ```
 
 > 🔖 Replace `<ENVIRONMENT_ID>` with the ID of the Scalr environment you want to associate.
+
+### 🏷️ Filter by Tag
+
+```yaml
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: example
+  annotations:
+    scalr.com/tag: <TAG_NAME>
+spec:
+  owner: guests
+```
+
+> 🔖 Replace `<TAG_NAME>` with the Name of the Scalr tag you want to associate.
+
+> ℹ️ If both annotations are defined on a single entity, Tag will take precedence over Environment.
