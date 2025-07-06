@@ -16,6 +16,9 @@ export const TagFetchComponent: React.FC<TagFetchComponentProps> = ({
   if (error) return <ResponseErrorPanel error={error} />;
 
   return (
-    <WorkspaceTableComponent title={tagName} workspaces={tag!.workspaces} />
+    <WorkspaceTableComponent
+      title={`Tag: ${tagName}`}
+      workspaces={tag!.workspaces}
+    />
   );
 };

@@ -17,7 +17,7 @@ export const EnvironmentFetchComponent: React.FC<
 
   return (
     <WorkspaceTableComponent
-      title={environment!.name}
+      title={`Environment: ${environment!.name}`}
       workspaces={environment!.workspaces}
     />
   );
