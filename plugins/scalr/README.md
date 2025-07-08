@@ -91,10 +91,13 @@ integrations:
   scalr:
     api-token: <YOUR_API_TOKEN>
     base-url: <YOUR_BASE_URL>
+    # Optional
+    allow-trigger-run: true
 ```
 
 - **API Token:** Obtain it via the Scalr UI under your user profile → _Personal Access Tokens_.
 - **Base URL:** This is the hostname of your Scalr instance (e.g. `organization.scalr.io`), which you’ll see in your browser's address bar when logged in.
+- **(Optional) Allow Triggering Runs:** Setting this to `true` will allow Backstage users to trigger new runs directly from the Scalr plugin UI. (Default: `false`)
 
 ---
 
