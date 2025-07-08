@@ -3,6 +3,7 @@ import { IconButton, CircularProgress } from '@material-ui/core';
 import PlayArrowIcon from '@material-ui/icons/PlayArrow';
 import OpenInNewIcon from '@material-ui/icons/OpenInNew';
 import { useWorkspace } from '../../hooks';
+import { useApi, configApiRef } from '@backstage/core-plugin-api';
 
 interface WorkspaceActionsProps {
   url: string;
@@ -15,6 +16,10 @@ export const WorkspaceActions: React.FC<WorkspaceActionsProps> = ({
 }) => {
   const [loading, setLoading] = useState(false);
   const { triggerRun } = useWorkspace(workspaceId);
+
+  const config = useApi(configApiRef);
+  const isTriggerRunAllowed =
+    config.getOptionalBoolean('integrations.scalr.allow-trigger-run') ?? false;
 
   const handleTriggerRun = async () => {
     setLoading(true);
@@ -35,7 +40,7 @@ export const WorkspaceActions: React.FC<WorkspaceActionsProps> = ({
       <IconButton
         aria-label="Trigger new Run"
         onClick={handleTriggerRun}
-        disabled={loading}
+        disabled={loading || !isTriggerRunAllowed}
       >
         {loading ? <CircularProgress size={20} /> : <PlayArrowIcon />}
       </IconButton>
