@@ -4,17 +4,20 @@ import Router from 'express-promise-router';
 import { EnvironmentService } from './services/EnvironmentService/types';
 import { WorkspaceService } from './services/WorkspaceService/types';
 import { TagService } from './services/TagService/types';
+import { ModuleService } from './services/ModuleService/types';
 
 export async function createRouter({
   httpAuth,
   environmentService,
   workspaceService,
   tagService,
+  moduleService,
 }: {
   httpAuth: HttpAuthService;
   environmentService: EnvironmentService;
   workspaceService: WorkspaceService;
   tagService: TagService;
+  moduleService: ModuleService;
 }): Promise<express.Router> {
   const router = Router();
   router.use(express.json());
@@ -60,6 +63,28 @@ export async function createRouter({
       await workspaceService.createRun(
         { id: req.params.id },
         { credentials: await httpAuth.credentials(req, { allow: ['user'] }) },
+      ),
+    );
+  });
+
+  router.get('/module/namespaces', async (req, res) => {
+    res.json(
+      await moduleService.getModuleNamespaces(
+        {},
+        {
+          credentials: await httpAuth.credentials(req, { allow: ['user'] }),
+        },
+      ),
+    );
+  });
+
+  router.get('/module/:id', async (req, res) => {
+    res.json(
+      await moduleService.getModules(
+        { namespaceId: req.params.id },
+        {
+          credentials: await httpAuth.credentials(req, { allow: ['user'] }),
+        },
       ),
     );
   });

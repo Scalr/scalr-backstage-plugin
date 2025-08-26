@@ -13,6 +13,15 @@ export const scalrPlugin = createPlugin({
   },
 });
 
+export const ModulesContent = scalrPlugin.provide(
+  createRoutableExtension({
+    name: 'ModulesContent',
+    component: () =>
+      import('./components/ModulesPageContent').then(m => m.ModulesPageContent),
+    mountPoint: rootRouteRef,
+  }),
+);
+
 export const EntityScalrEnvironmentContent = scalrPlugin.provide(
   createRoutableExtension({
     name: 'EntityScalrEnvironmentContent',

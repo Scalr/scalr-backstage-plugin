@@ -1,0 +1,1 @@
+export { ModulesPageContent } from './ModulesPageContent';

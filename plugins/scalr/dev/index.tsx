@@ -1,11 +1,12 @@
+import React from 'react';
 import { createDevApp } from '@backstage/dev-utils';
-import { scalrPlugin } from '../src/plugin';
+import { ModulesPage, scalrPlugin } from '../src/plugin';
 
 createDevApp()
   .registerPlugin(scalrPlugin)
-  // .addPage({
-  //   element: <ScalrPage />,
-  //   title: 'Root Page',
-  //   path: '/scalr',
-  // })
+  .addPage({
+    element: <ModulesPage status="planning" />,
+    title: 'Modules Page',
+    path: '/modules',
+  })
   .render();

@@ -13,6 +13,46 @@ export class ScalrApi {
     this.logger = logger;
   }
 
+  getModules(namespaceId?: string): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/modules${
+        namespaceId ? `?filter[module-namespace]=${namespaceId}` : ''
+      }`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching module namespaces:', err);
+        throw err;
+      });
+  }
+
+  getModuleNamespaces(): Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/module-namespaces`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching module namespaces:', err);
+        throw err;
+      });
+  }
+
   getEnvironments(): Promise<any> {
     const options = {
       method: 'GET',
