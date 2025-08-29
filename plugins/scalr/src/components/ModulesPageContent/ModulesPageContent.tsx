@@ -7,7 +7,7 @@ export function ModulesPageContent(): JSX.Element {
     <Page themeId="scalr">
       <Header
         title="Scalr Modules"
-        subtitle="An overview of all your availibly Scalr Modules, filterable by namespaces"
+        subtitle="An overview of all your available Scalr Modules, filterable by namespaces"
       />
       <Content>
         <ModulesFetchComponent />
