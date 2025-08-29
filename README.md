@@ -2,6 +2,11 @@
 
 This repository provides both the **frontend** and **backend** plugins required to integrate **Scalr** with **Backstage**.
 
+The plugin enables you to:
+
+- Link environments and workspaces to Backstage entities.
+- Add a side navigation link that opens the Scalr plugin page for modules, sortable by namespaces.
+
 ---
 
 ## 🔧 Setup
@@ -45,6 +50,8 @@ yarn workspace app add @scalr-io/backstage-plugin-scalr
 
 #### Integration
 
+##### Entities
+
 Add the plugin route to your entity page:
 
 ```diff
@@ -78,6 +85,57 @@ const domainPage = (
 
 > ℹ️ You can integrate the plugin into any entity page based on your organizational structure. You can also extend the catalog with custom entity kinds and attach the plugin accordingly.
 
+##### Sidenav
+
+Add the Plugin route to your Routes
+
+```diff
+// packages/app/src/App.tsx
+
++ import { ModulesContent } from '@scalr-io/backstage-plugin-scalr';
+
+const routes = (
+  <FlatRoutes>
+    <Route path="/" element={<Navigate to="catalog" />} />
+    <Route path="/catalog" element={<CatalogIndexPage />} />
+    ...
++   <Route path="/scalr/modules" element={<ModulesContent />} />
+  </FlatRoutes>
+...
+```
+
+Add The Sidebar Item to Navigate to the Modules Page
+
+```diff
+// packages/app/src/components/Root/Root.tsx
+
++ import { ScalrIcon } from '@scalr-io/backstage-plugin-scalr';
+
+...
+<SidebarGroup label="Menu" icon={<MenuIcon />}>
+        {/* Global nav, not org-specific */}
+        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
+        <MyGroupsSidebarItem
+          singularTitle="My Group"
+          pluralTitle="My Groups"
+          icon={GroupIcon}
+        />
+        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
+        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+        <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
+        {/* End global nav */}
+        <SidebarDivider />
+        <SidebarScrollWrapper>
++          <SidebarItem
++            icon={ScalrIcon}
++            to="/scalr/modules"
++            text="Scalr Modules"
++          />
+        </SidebarScrollWrapper>
+      </SidebarGroup>
+...
+```
+
 ---
 
 ### Configuration
@@ -91,16 +149,21 @@ integrations:
   scalr:
     api-token: <YOUR_API_TOKEN>
     base-url: <YOUR_BASE_URL>
+    # Optional
+    allow-trigger-run: true
 ```
 
 - **API Token:** Obtain it via the Scalr UI under your user profile → _Personal Access Tokens_.
 - **Base URL:** This is the hostname of your Scalr instance (e.g. `organization.scalr.io`), which you’ll see in your browser's address bar when logged in.
+- **(Optional) Allow Triggering Runs:** Setting this to `true` will allow Backstage users to trigger new runs directly from the Scalr plugin UI. (Default: `false`)
 
 ---
 
 ## 🚀 Usage
 
-To enable the plugin on a specific entity, add the following annotation to its metadata:
+You can filter displayed Workspaces by Environment or Tag using the appropriate annotations:
+
+### 🔧 Filter by Environment
 
 ```yaml
 apiVersion: backstage.io/v1alpha1
@@ -114,3 +177,20 @@ spec:
 ```
 
 > 🔖 Replace `<ENVIRONMENT_ID>` with the ID of the Scalr environment you want to associate.
+
+### 🏷️ Filter by Tag
+
+```yaml
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: example
+  annotations:
+    scalr.com/tag: <TAG_NAME>
+spec:
+  owner: guests
+```
+
+> 🔖 Replace `<TAG_NAME>` with the Name of the Scalr tag you want to associate.
+
+> ℹ️ If both annotations are defined on a single entity, Tag will take precedence over Environment.
