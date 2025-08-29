@@ -11,6 +11,8 @@ import { ModuleNamespace } from '../../types';
 import { useModules } from '../../hooks';
 import { ModuleActions } from './ModuleActions';
 import { VersionChipComponent } from '../VersionChipComponent';
+import { IconButton } from '@material-ui/core';
+import CloseIcon from '@material-ui/icons/Close';
 
 type ModulesTableProps = {
   namespaces: ModuleNamespace[];
@@ -66,16 +68,28 @@ export const ModulesTableComponent: React.FC<ModulesTableProps> = ({
             }}
           >
             <h3 style={{ margin: 0 }}>{props.title}</h3>
-
-            <div style={{ minWidth: 250 }}>
-              <Select
-                label="Filter by Namespace"
-                selected={selected}
-                onChange={(nextSelected: any) => {
-                  setSelected(nextSelected);
-                }}
-                items={items}
-              />
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                alignItems: 'center',
+                gap: 8,
+                padding: 8,
+              }}
+            >
+              <div style={{ minWidth: 250 }}>
+                <Select
+                  label="Filter by Namespace"
+                  selected={selected}
+                  onChange={(nextSelected: any) => {
+                    setSelected(nextSelected);
+                  }}
+                  items={items}
+                />
+              </div>
+              <IconButton onClick={() => setSelected(undefined)}>
+                <CloseIcon />
+              </IconButton>
             </div>
           </div>
         ),
