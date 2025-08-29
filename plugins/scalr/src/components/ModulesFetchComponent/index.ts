@@ -1,0 +1,1 @@
+export { ModulesFetchComponent } from './ModulesFetchComponent';

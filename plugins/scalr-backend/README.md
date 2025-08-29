@@ -2,6 +2,11 @@
 
 This repository provides both the **frontend** and **backend** plugins required to integrate **Scalr** with **Backstage**.
 
+The plugin enables you to:
+
+- Link environments and workspaces to Backstage entities.
+- Add a side navigation link that opens the Scalr plugin page for modules, sortable by namespaces.
+
 ---
 
 ## 🔧 Setup
@@ -45,6 +50,8 @@ yarn workspace app add @scalr-io/backstage-plugin-scalr
 
 #### Integration
 
+##### Entities
+
 Add the plugin route to your entity page:
 
 ```diff
@@ -78,6 +85,57 @@ const domainPage = (
 
 > ℹ️ You can integrate the plugin into any entity page based on your organizational structure. You can also extend the catalog with custom entity kinds and attach the plugin accordingly.
 
+##### Sidenav
+
+Add the Plugin route to your Routes
+
+```diff
+// packages/app/src/App.tsx
+
++ import { ModulesContent } from '@scalr-io/backstage-plugin-scalr';
+
+const routes = (
+  <FlatRoutes>
+    <Route path="/" element={<Navigate to="catalog" />} />
+    <Route path="/catalog" element={<CatalogIndexPage />} />
+    ...
++   <Route path="/scalr/modules" element={<ModulesContent />} />
+  </FlatRoutes>
+...
+```
+
+Add The Sidebar Item to Navigate to the Modules Page
+
+```diff
+// packages/app/src/components/Root/Root.tsx
+
++ import { ScalrIcon } from '@scalr-io/backstage-plugin-scalr';
+
+...
+<SidebarGroup label="Menu" icon={<MenuIcon />}>
+        {/* Global nav, not org-specific */}
+        <SidebarItem icon={HomeIcon} to="catalog" text="Home" />
+        <MyGroupsSidebarItem
+          singularTitle="My Group"
+          pluralTitle="My Groups"
+          icon={GroupIcon}
+        />
+        <SidebarItem icon={ExtensionIcon} to="api-docs" text="APIs" />
+        <SidebarItem icon={LibraryBooks} to="docs" text="Docs" />
+        <SidebarItem icon={CreateComponentIcon} to="create" text="Create..." />
+        {/* End global nav */}
+        <SidebarDivider />
+        <SidebarScrollWrapper>
++          <SidebarItem
++            icon={ScalrIcon}
++            to="/scalr/modules"
++            text="Scalr Modules"
++          />
+        </SidebarScrollWrapper>
+      </SidebarGroup>
+...
+```
+
 ---
 
 ### Configuration
@@ -93,6 +151,10 @@ integrations:
     base-url: <YOUR_BASE_URL>
     # Optional
     allow-trigger-run: true
+    # Optional (If set Namespaces will not be fetched)
+    module-namepsaces:
+      - id: modns-xxxxxxxxxxx
+        display-name: Developer Namespace
 ```
 
 - **API Token:** Obtain it via the Scalr UI under your user profile → _Personal Access Tokens_.

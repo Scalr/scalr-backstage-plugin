@@ -27,6 +27,7 @@ import MenuIcon from '@material-ui/icons/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import { MyGroupsSidebarItem } from '@backstage/plugin-org';
 import GroupIcon from '@material-ui/icons/People';
+import { ScalrIcon } from '@scalr-io/backstage-plugin-scalr';
 
 const useSidebarLogoStyles = makeStyles({
   root: {
@@ -78,7 +79,11 @@ export const Root = ({ children }: PropsWithChildren<{}>) => (
         {/* End global nav */}
         <SidebarDivider />
         <SidebarScrollWrapper>
-          {/* Items in this group will be scrollable if they run out of space */}
+          <SidebarItem
+            icon={ScalrIcon}
+            to="/scalr/modules"
+            text="Scalr Modules"
+          />
         </SidebarScrollWrapper>
       </SidebarGroup>
       <SidebarSpace />

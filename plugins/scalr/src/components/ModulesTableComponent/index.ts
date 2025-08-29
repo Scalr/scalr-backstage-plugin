@@ -1,0 +1,1 @@
+export { ModulesTableComponent } from './ModulesTableComponent';
