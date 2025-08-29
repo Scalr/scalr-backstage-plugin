@@ -1,4 +1,8 @@
 export interface Module {
-  name: string;
   id: string;
+  name: string;
+  description: string;
+  provider: string;
+  version?: string;
+  url: string;
 }

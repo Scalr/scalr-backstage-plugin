@@ -1,0 +1,1 @@
+export { VersionChipComponent } from './VersionChipComponent';

@@ -16,8 +16,10 @@ export class ScalrApi {
   getModules(namespaceId?: string): Promise<any> {
     const options = {
       method: 'GET',
-      url: `https://${this.baseUrl}/api/iacp/v3/modules${
-        namespaceId ? `?filter[module-namespace]=${namespaceId}` : ''
+      url: `https://${
+        this.baseUrl
+      }/api/iacp/v3/modules?include=module-versions${
+        namespaceId ? `&filter[module-namespace]=${namespaceId}` : ''
       }`,
       headers: {
         accept: 'application/vnd.api+json',

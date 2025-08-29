@@ -1,6 +1,5 @@
 import React from 'react';
 import {
-  Link,
   Progress,
   ResponseErrorPanel,
   Select,
@@ -10,6 +9,8 @@ import {
 } from '@backstage/core-components';
 import { ModuleNamespace } from '../../types';
 import { useModules } from '../../hooks';
+import { ModuleActions } from './ModuleActions';
+import { VersionChipComponent } from '../VersionChipComponent';
 
 type ModulesTableProps = {
   namespaces: ModuleNamespace[];
@@ -30,13 +31,21 @@ export const ModulesTableComponent: React.FC<ModulesTableProps> = ({
   }));
 
   const columns: TableColumn[] = [
-    { title: 'Name', field: 'name' },
     { title: 'ID', field: 'id' },
+    { title: 'Name', field: 'name' },
+    { title: 'Description', field: 'description' },
+    { title: 'Provider', field: 'provider' },
+    { title: 'Version', field: 'version' },
+    { title: 'Actions', field: 'actions' },
   ];
 
   const data = (modules ?? []).map(module => ({
-    name: <p>{module.name}</p>,
     id: <p>{module.id}</p>,
+    name: <p>{module.name}</p>,
+    description: <p>{module.description}</p>,
+    provider: <p>{module.provider}</p>,
+    version: <VersionChipComponent version={module.version} />,
+    actions: <ModuleActions url={module.url} />,
   }));
 
   return (
@@ -45,6 +54,7 @@ export const ModulesTableComponent: React.FC<ModulesTableProps> = ({
       options={{ paging: false }}
       columns={columns}
       data={data}
+      isLoading={loading}
       components={{
         Toolbar: props => (
           <div
@@ -60,8 +70,9 @@ export const ModulesTableComponent: React.FC<ModulesTableProps> = ({
             <div style={{ minWidth: 250 }}>
               <Select
                 label="Filter by Namespace"
-                onChange={(bla: any) => {
-                  setSelected(bla);
+                selected={selected}
+                onChange={(nextSelected: any) => {
+                  setSelected(nextSelected);
                 }}
                 items={items}
               />

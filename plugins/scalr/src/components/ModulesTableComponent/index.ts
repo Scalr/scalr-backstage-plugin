@@ -1,1 +1,1 @@
-export { WorkspaceTableComponent } from './WorkspaceTableComponent';
+export { ModulesTableComponent } from './ModulesTableComponent';

@@ -78,6 +78,17 @@ export async function createRouter({
     );
   });
 
+  router.get('/module', async (req, res) => {
+    res.json(
+      await moduleService.getModules(
+        {},
+        {
+          credentials: await httpAuth.credentials(req, { allow: ['user'] }),
+        },
+      ),
+    );
+  });
+
   router.get('/module/:id', async (req, res) => {
     res.json(
       await moduleService.getModules(

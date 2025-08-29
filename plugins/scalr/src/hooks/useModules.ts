@@ -22,7 +22,9 @@ export function useModules(namespaceId?: string) {
       try {
         const backendBaseUrl: string = configApi.getString('backend.baseUrl');
         const credentials = await identityApi.getCredentials();
-        const url: string = `${backendBaseUrl}/api/scalr/module/${namespaceId}`;
+        const url: string = `${backendBaseUrl}/api/scalr/module${
+          namespaceId ? `/${namespaceId}` : ''
+        }`;
 
         const res = await axios.get(url, {
           headers: {
@@ -32,7 +34,7 @@ export function useModules(namespaceId?: string) {
 
         setModules(res.data);
       } catch (err) {
-        setError(new Error('Failed to fetch module s'));
+        setError(new Error('Failed to fetch module'));
       } finally {
         setLoading(false);
       }
