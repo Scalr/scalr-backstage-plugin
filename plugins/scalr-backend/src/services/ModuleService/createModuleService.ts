@@ -31,10 +31,20 @@ export async function createModuleService({
     return `https://${host}/v2/a/${accId}/modules/${moduleId}`;
   };
 
+  const configModuleNamespaces = config.getOptionalConfigArray(
+    'integrations.scalr.module-namepsaces',
+  );
+
   return {
     async getModuleNamespaces(_: {}) {
       logger.info(`/module/namespaces was requested`);
 
+      if (configModuleNamespaces) {
+        return configModuleNamespaces.map(ns => ({
+          name: ns.getString('display-name'),
+          id: ns.getString('id'),
+        })) satisfies ModuleNamespace[];
+      }
       const moduleNamespaces = (await scalrApi.getModuleNamespaces()).data;
       if (!Array.isArray(moduleNamespaces)) {
         throw new NotFoundError('Error fetching module namespaces');
@@ -53,6 +63,8 @@ export async function createModuleService({
 
     async getModules(request: { namespaceId?: string }) {
       logger.info(`/modules was requested`);
+
+      if (configModuleNamespaces && !request.namespaceId) return [];
 
       const response = await scalrApi.getModules(request.namespaceId);
       const modules: any[] = Array.isArray(response?.data) ? response.data : [];

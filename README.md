@@ -151,6 +151,10 @@ integrations:
     base-url: <YOUR_BASE_URL>
     # Optional
     allow-trigger-run: true
+    # Optional (If set Namespaces will not be fetched)
+    module-namepsaces:
+      - id: modns-xxxxxxxxxxx
+        display-name: Developer Namespace
 ```
 
 - **API Token:** Obtain it via the Scalr UI under your user profile → _Personal Access Tokens_.
