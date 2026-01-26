@@ -1,0 +1,1 @@
+export { createRegexService } from './createRegexService';

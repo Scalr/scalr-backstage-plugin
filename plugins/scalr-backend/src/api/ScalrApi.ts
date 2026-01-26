@@ -1,6 +1,7 @@
-import { Config } from '@backstage/config';
 import axios from 'axios';
+
 import { LoggerService } from '@backstage/backend-plugin-api';
+import { Config } from '@backstage/config';
 
 export class ScalrApi {
   private readonly token: string;
@@ -108,6 +109,25 @@ export class ScalrApi {
       .then(res => res.data)
       .catch(err => {
         this.logger.error('Error fetching environment:', err);
+        throw err;
+      });
+  }
+
+  listWorkspaces():Promise<any> {
+    const options = {
+      method: 'GET',
+      url: `https://${this.baseUrl}/api/iacp/v3/workspaces`,
+      headers: {
+        accept: 'application/vnd.api+json',
+        authorization: `Bearer ${this.token}`,
+      },
+    };
+
+    return axios
+      .request(options)
+      .then(res => res.data)
+      .catch(err => {
+        this.logger.error('Error fetching workspaces:', err);
         throw err;
       });
   }

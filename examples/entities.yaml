@@ -16,7 +16,7 @@ kind: Component
 metadata:
   name: example-website
   annotations:
-    scalr.com/environment: env-v0ooqfj2aa78n0d9d
+    scalr.com/regex: ^Workspace-A\d+
 spec:
   type: website
   lifecycle: experimental
