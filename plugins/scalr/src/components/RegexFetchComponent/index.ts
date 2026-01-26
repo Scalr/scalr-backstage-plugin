@@ -1,0 +1,1 @@
+export { RegexFetchComponent } from './RegexFetchComponent';

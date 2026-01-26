@@ -1,6 +1,7 @@
 import { Entity } from '@backstage/catalog-model';
 
 export const SCALR_ENVIRONMENT_ANNOTATION = 'scalr.com/environment';
+export const SCALR_REGEX_ANNOTATION = 'scalr.com/regex';
 export const SCALR_TAG_ANNOTATION = 'scalr.com/tag';
 
 export const isScalrAvailable = (entity: Entity): boolean => {
@@ -16,6 +17,12 @@ export const isScalrEnvironmentAvailable = (entity: Entity): boolean => {
   const { annotations = {} } = entity.metadata;
 
   return Boolean(annotations[SCALR_ENVIRONMENT_ANNOTATION]);
+};
+
+export const isScalrRegexAvailable = (entity: Entity): boolean => {
+  const { annotations = {} } = entity.metadata;
+
+  return Boolean(annotations[SCALR_REGEX_ANNOTATION]);
 };
 
 export const isScalrTagAvailable = (entity: Entity): boolean => {

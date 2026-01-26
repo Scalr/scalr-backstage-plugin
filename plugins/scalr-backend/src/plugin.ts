@@ -1,12 +1,11 @@
-import {
-  coreServices,
-  createBackendPlugin,
-} from '@backstage/backend-plugin-api';
+import { coreServices, createBackendPlugin } from '@backstage/backend-plugin-api';
+
 import { createRouter } from './router';
 import { createEnvironmentService } from './services/EnvironmentService';
-import { createWorkspaceService } from './services/WorkspaceService';
-import { createTagService } from './services/TagService';
 import { createModuleService } from './services/ModuleService';
+import { createRegexService } from './services/RegexService';
+import { createTagService } from './services/TagService';
+import { createWorkspaceService } from './services/WorkspaceService';
 
 /**
  * scalrPlugin backend plugin
@@ -33,6 +32,10 @@ export const scalrPlugin = createBackendPlugin({
           logger,
           config,
         });
+        const regexService = await createRegexService({
+          logger,
+          config,
+        })
         const tagService = await createTagService({
           logger,
           config,
@@ -47,6 +50,7 @@ export const scalrPlugin = createBackendPlugin({
             httpAuth,
             environmentService,
             workspaceService,
+            regexService,
             tagService,
             moduleService,
           }),

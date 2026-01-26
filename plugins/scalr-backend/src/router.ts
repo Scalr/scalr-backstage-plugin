@@ -1,21 +1,26 @@
-import { HttpAuthService } from '@backstage/backend-plugin-api';
 import express from 'express';
 import Router from 'express-promise-router';
+
+import { HttpAuthService } from '@backstage/backend-plugin-api';
+
 import { EnvironmentService } from './services/EnvironmentService/types';
-import { WorkspaceService } from './services/WorkspaceService/types';
-import { TagService } from './services/TagService/types';
 import { ModuleService } from './services/ModuleService/types';
+import { RegexService } from './services/RegexService/types';
+import { TagService } from './services/TagService/types';
+import { WorkspaceService } from './services/WorkspaceService/types';
 
 export async function createRouter({
   httpAuth,
   environmentService,
   workspaceService,
+  regexService,
   tagService,
   moduleService,
 }: {
   httpAuth: HttpAuthService;
   environmentService: EnvironmentService;
   workspaceService: WorkspaceService;
+  regexService: RegexService;
   tagService: TagService;
   moduleService: ModuleService;
 }): Promise<express.Router> {
@@ -35,6 +40,15 @@ export async function createRouter({
     res.json(
       await environmentService.getEnvironment(
         { id: req.params.id },
+        { credentials: await httpAuth.credentials(req, { allow: ['user'] }) },
+      ),
+    );
+  });
+
+  router.get('/regex/:regex', async (req, res) => {
+    res.json(
+      await regexService.getRegex(
+        { regex: req.params.regex },
         { credentials: await httpAuth.credentials(req, { allow: ['user'] }) },
       ),
     );

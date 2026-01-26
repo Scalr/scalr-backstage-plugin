@@ -197,4 +197,17 @@ spec:
 
 > 🔖 Replace `<TAG_NAME>` with the Name of the Scalr tag you want to associate.
 
-> ℹ️ If both annotations are defined on a single entity, Tag will take precedence over Environment.
+### 🔎 Filter by Regex
+
+```yaml
+apiVersion: backstage.io/v1alpha1
+kind: Domain
+metadata:
+  name: example
+  annotations:
+    scalr.com/regex: <REGEX>
+spec:
+  owner: guests
+```
+
+> 🔖 Replace `<REGEX>` with a regex to match your workspace names (e.g. `^Workspace-A\d+`)
